@@ -47,16 +47,6 @@ Kiora is being developed progressively while learning the underlying concepts of
 
 - Natural language interaction
 - Context management
-- LLM integration
-- Prompt management
-- Conversation history
-
-## 🎙️ Voice Assistant
-
-- Speech-to-text
-- Text-to-speech
-- Voice commands
-- Voice response
 
 ## 🧠 Memory System
 
