@@ -1,0 +1,440 @@
+import time
+import sys
+import datetime
+import webbrowser
+import os
+import re
+import json
+import psutil
+
+# Kiora AI
+
+
+def speak(text):
+    print("\nKiora AI:", text)
+
+
+def welcome():
+    speak("Hello! I am Kiora AI\nToday, It's a very nice day\nWhat type of help can I do for you?")
+
+
+# Data and information
+
+data = {
+    "python": "Python is a high-level, interpreted programming language.",
+    "ai": "AI stands for Artificial Intelligence.",
+    "ml": "ML stands for Machine Learning."
+}
+
+
+# JSON memory holder
+
+FILE = "memory.json"
+
+
+# Load previous memory
+
+if os.path.exists(FILE):
+    with open(FILE, "r") as file:
+        memory = json.load(file)
+else:
+    memory = {}
+
+
+# Main program
+
+while True:
+
+    command = input("\nYou: ").lower().strip()
+
+
+    # Exit
+
+    if command == "exit" or command == "quit":
+        speak("Goodbye sir! See you again.")
+        break
+
+
+    # Hello
+
+    elif command == "hello":
+        speak("Hello! How are you sir?")
+
+
+    # Start
+
+    elif command == "start":
+        speak("Starting......")
+        time.sleep(4)
+        print("Started")
+        welcome()
+
+
+    # Date and time
+
+    elif command == "time":
+        current_time = datetime.datetime.now().strftime("%I : %M %p")
+        speak("Current Time: " + current_time)
+
+
+    elif command == "date":
+        today = datetime.datetime.now().strftime("%d - %m - %Y")
+        speak("Today: " + today)
+
+
+    # Save user's name
+
+    elif command.startswith("my name is"):
+
+        name = command[10:].strip()
+
+        if name:
+            memory["name"] = name
+
+            # Save memory to JSON
+
+            with open(FILE, "w") as file:
+                json.dump(memory, file, indent=4)
+
+            speak("Nice to meet you " + name)
+
+        else:
+            speak("Please tell me your name.")
+
+
+    # Asking user's name
+
+    elif (
+        "what is my name" in command
+        or "what's my name" in command
+        or "do you know my name" in command
+        or "my name" in command
+        or "who am i" in command
+        or "remember my name" in command
+        or "remember me" in command or "i am" in command or "i'm" in command or "im" in command
+    ):
+
+        if "name" in memory:
+            speak("Your name is " + memory["name"])
+        else:
+            speak("I don't know your name yet.")
+            
+            
+  # For age storing
+  
+    elif command.startswith("my age is"):
+        age=command[10:].strip()
+        
+        if age:
+            memory["age"]=age
+            
+            #Opening file
+            
+            with open(FILE,"w") as file:
+                json.dump(memory,file,indent=4)
+                speak("Nice to meet you and your age is "+ age+ " is updated successfully!")
+
+        else:
+             speak("Please tell your age ! Kindly.")
+             
+             #adding commands
+             
+    elif(
+     "what is my age" in command
+        or "what's my age" in command
+        or "do you know my age" in command
+        or "my age" in command
+        or "what age for me" in command
+        or "remember my age" in command
+        or "remember age for me" in command or "tell my age" in command 
+        ):
+            if "age" in memory:
+                speak("Your age is "+memory["age"])
+            else:
+                speak("I don't know your age yet")
+            
+ # For updating date of birth
+    elif command.startswith("my birthday is"):
+        birthday=command[14:].strip()
+        dob=command[14:].strip()
+        if birthday:
+            memory["birthday"]=birthday
+            #Opening file
+            
+            with open(FILE,"w") as file:
+                json.dump(memory,file,indent=4)
+                speak("Nice to meet you ! You were born on "+ birthday+ " is updated successfully!")
+
+        else:
+             speak("Please tell your date of birth ! Kindly.")
+             
+             #adding commands
+             
+    elif (
+    "what is my birthday" in command
+    or "what's my birthday" in command
+    or "when is my birthday" in command
+    or "when's my birthday" in command
+    or "do you know my birthday" in command
+    or "do you remember my birthday" in command
+    or "remember my birthday" in command
+    or "tell me my birthday" in command
+    or "can you tell my birthday" in command
+    or "my birthday" in command 
+    ):
+            if "birthday" in memory:
+                speak("Your birthday is on "+memory["birthday"])
+            else:
+                speak("I don't know your birthday yet")
+
+#college and course 
+
+    elif command.startswith("my college is "):
+        college=command[13:].strip()
+        memory["college"]=college
+        with open(FILE,"w") as file:
+            json.dump(memory,file,indent=4)
+        print("Kiora AI : Nice to meet you ! you were studying in"  +college  +"is updated successfully")
+        
+    elif(
+    "what is my college" in command or "what's my college" in command or "which college do i study in" in command or "which college am i studying in" in command or "where do i study" in command or "where am i studying" in command or "do you know my college" in command or "do you remember my college" in command or "tell me my college" in command or "what college am i in" in command or "which college am i in" in command or "which is my college" in command or "my college" in command):
+                
+                if "college" in memory:
+                    print("Kiora AI: Your college is", memory["college"])
+                    
+                else:
+                    print("Kiora AI: I don't know your college details yet.")
+                    
+                    #Course updation
+                    
+    elif command.startswith("my course is "):
+        course=command[13:].strip()
+        memory["course"]=course
+        with open(FILE,"w") as file:
+            json.dump(memory,file,indent=4)
+        print("Kiora AI : Nice to meet you ! you were studying in this course ,"  +course  +" is updated successfully")
+        
+    elif(
+      "what is my course" in command
+    or "what's my course" in command
+    or "which course do i study" in command
+    or "which course am i studying" in command
+    or "what am i studying" in command
+    or "what do i study" in command
+    or "do you know my course" in command
+    or "do you remember my course" in command
+    or "tell me my course" in command
+    or "what degree am i doing" in command or "what course did i studying" in command or "course" in command):
+   
+                
+                if "course" in memory:
+                    print("Kiora AI: Your course is", memory["course"])
+                    
+                else:
+                    print("Kiora AI: I don't know your course details yet.")
+                    
+                    # Blood group updation
+                    
+    elif command.startswith("my blood group is "):
+        blood_group=command[18:].strip()
+        memory["blood_group"]=blood_group
+        with open(FILE,"w") as file:
+            json.dump(memory,file,indent=4)
+        print("Kiora AI : Nice to meet you ! you're Blood group "+ blood_group+ " is updated successfully")
+        
+    elif(
+      "what is my blood group" in command
+    or "what's my blood group" in command
+    or "do you know my blood group" in command
+    or "do you remember my blood group" in command
+    or "tell me my blood group" in command
+    or "remember my blood group" in command or "blood group" in command
+      ):
+   
+                
+                if "blood_group" in memory:
+                    print("Kiora AI: Your blood group is", memory["blood_group"])
+                    
+                else:
+                    print("Kiora AI: I don't know your blood group details yet.")  
+                    
+                    # Address updation
+                    
+    elif command.startswith("my address is ") or command.startswith("i live in") or command.startswith("i live at") or command.startswith("my home address is ") or command.startswith("my residence is"):
+        
+        address=command[14:].strip()
+        memory["address"]=address
+        with open(FILE,"w") as file:
+            json.dump(memory,file,indent=4)
+            
+        print("Kiora AI : Nice to meet you ! you're home address is "+ address + "  is to be updated successfully")
+        
+    elif(
+     "what is my home address" in command
+    or "what's my home address" in command
+    or "what is my address" in command
+    or "what's my address" in command
+    or "what is my residence" in command
+    or "what's my residence" in command
+    or "where do i live" in command
+    or "where am i living" in command
+    or "where is my home" in command
+    or "do you know my home address" in command
+    or "do you know where i live" in command
+    or "do you remember my address" in command
+    or "do you remember where i live" in command
+    or "tell me my home address" in command
+    or "tell me my address" in command
+    or "tell me my residence" in command
+      ):
+   
+                
+                if "address" in memory:
+                    print("Kiora AI: Your home address is", memory["address"])
+                    
+                else:
+                    print("Kiora AI: I don't know your resident address details yet.")  
+        
+                   # System information                 
+    elif "battery" in command:
+        battery=psutil.sensors_battery()
+        if battery:
+            speak("Battery information")
+            print("Battery percentage :", battery.percent, "%")
+            if battery.power_plugged:
+                print("Status : Charging")
+            else:
+                print("Status : Not charging")
+                   
+              
+          
+ #Accessing websites through link
+ 
+    elif "whatsapp" in command:
+        speak("Opening WhatsApp.....")
+        time.sleep(2.5)
+        webbrowser.open("whatsapp://send?phone=9962697949")
+
+
+    elif "instagram" in command:
+        speak("Opening Instagram.....")
+        time.sleep(1)
+        webbrowser.open("https://www.instagram.com")
+
+
+    elif "chrome" in command:
+        speak("Opening Chrome.....")
+        time.sleep(2.5)
+        webbrowser.open("https://www.google.com")
+
+
+    elif "youtube" in command:
+        speak("Opening YouTube......")
+        time.sleep(2.5)
+        webbrowser.open("https://www.youtube.com")
+
+
+    elif "google" in command:
+        speak("Opening Google......")
+        time.sleep(2.5)
+        webbrowser.open("https://www.google.com")
+
+
+    elif "amazon" in command:
+        speak("Opening Amazon......")
+        time.sleep(2.5)
+        webbrowser.open("https://www.amazon.com")
+
+
+    elif "flipkart" in command:
+        speak("Opening Flipkart......")
+        time.sleep(2.5)
+        webbrowser.open("https://www.flipkart.com")
+
+
+    elif "meesho" in command:
+        speak("Opening Meesho......")
+        time.sleep(2.5)
+        webbrowser.open("https://www.meesho.com")
+
+
+    elif "shopsy" in command:
+        speak("Opening Shopsy......")
+        time.sleep(2.5)
+        webbrowser.open("https://www.shopsy.in")
+
+
+    elif "maps" in command:
+        speak("Opening Maps......")
+        time.sleep(2.5)
+        webbrowser.open("https://www.google.com/maps")
+
+
+    elif "calculator" in command:
+        speak("Opening Calculator......")
+        time.sleep(2.5)
+        webbrowser.open("https://www.google.com/search?q=calculator")
+
+
+    elif "weather" in command:
+        speak("Opening Weather......")
+        time.sleep(2.5)
+        webbrowser.open("https://www.google.com/search?q=weather")
+
+
+    elif "english news" in command:
+        speak("Opening Times of India......")
+        time.sleep(2.5)
+        webbrowser.open("https://timesofindia.indiatimes.com/")
+
+
+    elif "tamil news" in command:
+        speak("Opening Thanthi News......")
+        time.sleep(2.5)
+        webbrowser.open("https://www.thanthitv.com/")
+
+
+    elif "leetcode" in command:
+        speak("Opening LeetCode......")
+        time.sleep(2.5)
+        webbrowser.open("https://leetcode.com/")
+
+
+    elif "free fire" in command:
+        speak("Opening Free Fire......")
+        time.sleep(2.5)
+        webbrowser.open("com.dts.freefiremax")
+
+
+    elif "currency converter" in command:
+        speak("Opening Currency Converter for your need......")
+        time.sleep(2.5)
+        webbrowser.open(
+            "https://www.google.com/search?q=currency+converter"
+        )
+
+
+    # Data and information
+
+    elif command == "give data":
+
+        speak("What data do you want to know?")
+
+        question = input("You: ").lower().strip()
+
+        if question in data:
+
+            speak("Searching.....")
+            time.sleep(3.5)
+
+            speak(data[question])
+
+        else:
+
+            speak("Sorry, I don't have that data yet.")
+
+
+    # Unknown command
+
+    else:
+        speak("I don't understand that yet.")          
