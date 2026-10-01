@@ -2,6 +2,8 @@ import os
 import platform
 import webbrowser
 
+# Open source Calculator 
+
 def open_calculator():
     system=platform.system()
     
